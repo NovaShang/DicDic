@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using F = System.Windows.Forms;
 namespace DicDic
 {
@@ -14,20 +16,27 @@ namespace DicDic
     public partial class App : Application
     {
 
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             MainWindow = new MainWindow();
+            MainWindow.Show();
+            MainWindow.Hide();
+            CreateNotifyIcon();
+        }
+
+        private F.MenuItem _miHotkey;
+
+        private void CreateNotifyIcon()
+        {
             var ni = new F.NotifyIcon()
             {
                 Text = "DicDic",
                 Visible = true,
                 Icon = DicDic.Properties.Resources.NotifyIcon,
                 ContextMenu = new F.ContextMenu(new[] {
-                    new F.MenuItem("启用全局快捷键"){ Checked=true},
-                    new F.MenuItem("监控剪贴板"){ Checked=true},
+                    _miHotkey=new F.MenuItem("启用全局快捷键"),
                     new F.MenuItem("搜索引擎",new []{
                         new F.MenuItem("谷歌"){ RadioCheck=true,Checked=true},
                         new F.MenuItem("百度"){ RadioCheck=true},
@@ -52,9 +61,6 @@ namespace DicDic
                 MainWindow.Show();
                 MainWindow.Activate();
             };
-
-
-
         }
     }
 }
