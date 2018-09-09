@@ -1,7 +1,6 @@
 ﻿<Application x:Class="DicDic.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="MainWindow.xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
         
         <!--小图标的样式，使用win10内置得图标字体加特殊字符实现-->

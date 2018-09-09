@@ -5,6 +5,10 @@
         WindowStyle="None" 
         ResizeMode="NoResize"
         Topmost="True"
+        ShowInTaskbar="False"
+        Deactivated="Window_Deactivated"
+        ShowActivated="True"
+         Activated="Window_Activated"
         Height="100"
         Width="400">
     <Border VerticalAlignment="Stretch"  
@@ -16,6 +20,8 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
+            
+            <!--输入界面-->
             <DockPanel Grid.Row="1">
                 <TextBlock DockPanel.Dock="Left"
                            ToolTip="DicDic by Nova"
@@ -27,7 +33,8 @@
                     <Button Style="{DynamicResource FlatButtonStyle}"
                             ToolTip="查词 (Enter)"
                             Padding="10">
-                        <TextBlock Text="&#xE164;" 
+                        <TextBlock Text="&#xE164;"
+                                   Tag="DicDic by Nova"
                                    Style="{DynamicResource FontIconSmall}" />
                     </Button>
                     <Button Style="{DynamicResource FlatButtonStyle}"
@@ -37,24 +44,17 @@
                                    Style="{DynamicResource FontIconSmall}" />
                     </Button>
                 </StackPanel>
-                <TextBox Style="{DynamicResource TextBoxStyle}" />
+                <TextBox x:Name="KeyWordTextBox" Style="{DynamicResource TextBoxStyle}" 
+                         Text="{Binding KeyWord,UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-
-            <StackPanel HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-                <StackPanel VerticalAlignment="Center" Opacity="0.6" Margin="10,0">
-                    <TextBlock HorizontalAlignment="Right" Text="Enter 查词"/>
-                    <TextBlock HorizontalAlignment="Right" Text="Ctrl+Enter 搜索"/>
-                </StackPanel>
-                <Button Style="{DynamicResource FlatButtonStyle}"
-                        Visibility="Collapsed"
-                        Padding="10">
-                    <TextBlock FontFamily="Segoe MDL2 Assets" 
-                               Text="&#xE10A;" 
-                               Style="{DynamicResource FontIconSmall}" />
-                </Button>
-
-            </StackPanel>
+            
+            <!--结果显示-->
+            <ListView Grid.Row="0" Background="#FF333333" BorderThickness="0" Foreground="White">
+                <ListViewItem>
+                    <TextBlock Text="Bursted"/>
+                </ListViewItem>
+                
+            </ListView>
         </Grid>
     </Border>
 </Window>
