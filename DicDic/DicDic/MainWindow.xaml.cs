@@ -27,6 +27,7 @@ namespace DicDic
         public MainWindow()
         {
             InitializeComponent();
+            BuildDicData();
             Left = SystemParameters.WorkArea.Right - Width;
             Top = SystemParameters.WorkArea.Bottom - Height;
             Activated += (s, e) => KeyWordTextBox.Focus();
@@ -79,7 +80,26 @@ namespace DicDic
         #endregion
 
         private string _keyWord = "";
+        private bool _showResult = true;
+        private Dictionary<string, int> _dicIndex=new Dictionary<string, int>();
+        private List<Result> _dicContent=new List<Result>();
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+        /// <summary>
+        /// 是否时显示结果的状态，
+        /// </summary>
+        public bool ShowResult
+        {
+            get => _showResult; set
+            {
+                if (value == _showResult) return;
+                _showResult = value;
+                Height = ShowResult ? 500 : 50;
+                Left = SystemParameters.WorkArea.Right - Width;
+                Top = SystemParameters.WorkArea.Bottom - Height;
+            }
+        }
 
         /// <summary>
         /// 当前的搜索关键词
@@ -89,9 +109,32 @@ namespace DicDic
             get => _keyWord; set
             {
                 _keyWord = value;
+                ShowResult = value != "";
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("KeyWord"));
             }
         }
+
+        /// <summary>
+        /// 根据资源中的数据构建内存中的字典
+        /// </summary>
+        /// <returns></returns>
+        public void BuildDicData()
+        {
+            foreach (var item in Properties.Resources.en_zh.Split('\n')
+                .Concat(Properties.Resources.zh_en.Split('\n')))
+            {
+                var pos = item.IndexOf(',');
+                if (pos < 0) continue;
+                var key = item.Substring(0, pos);
+                var value = item.Substring(pos + 1, item.Length - pos - 1);
+                if (_dicIndex.ContainsKey(key)) _dicContent[_dicIndex[key]].Content += "|" + value;
+                else {
+                    _dicIndex.Add(key, _dicContent.Count);
+                    _dicContent.Add(new Result() {  Content= value,Title= key});
+                }
+            }
+        }
+
 
         /// <summary>
         /// 在线搜索
@@ -116,6 +159,13 @@ namespace DicDic
         private void OpenDetail(object sender, EventArgs e)
         {
             Process.Start(Properties.Settings.Default.DictUrl.Replace("{KEYWORD}", KeyWord));
+        }
+
+        public class Result
+        {
+            public string Title { get; set; }
+
+            public string Content { get; set; }
         }
     }
 }

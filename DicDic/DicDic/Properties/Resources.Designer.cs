@@ -47,7 +47,7 @@ namespace DicDic.Properties {
         }
         
         /// <summary>
-        ///   使用此强类型资源类，为所有资源查找
+        ///   重写当前线程的 CurrentUICulture 属性
         ///   重写当前线程的 CurrentUICulture 属性。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -61,12 +61,74 @@ namespace DicDic.Properties {
         }
         
         /// <summary>
+        ///   查找类似 a,a:一|d:一道
+        ///a adjoin,n:毗连
+        ///a bad accident,n:横事
+        ///a bad crop,n:欠产
+        ///a bad lot,n:狐群狗党
+        ///a bad plan,n:下策
+        ///a bad reputation,n:恶名
+        ///a bad year,n:凶年
+        ///a ball,n:圆球
+        ///a band of,n:帮
+        ///a bare outline,n:空架子
+        ///a barrage of,n:一连串
+        ///a base person,n:小人
+        ///a beach swimmer,n:弄潮儿
+        ///a beaming countenance,n:眉开眼笑
+        ///a beau,n:翩翩少年
+        ///a beautiful gem,n:瑾
+        ///a beautiful night,n:月白风清
+        ///a beauty,n:红颜
+        ///a beloved daughter,n:掌上明珠
+        ///a benign countenance,n:和颜悦色
+        ///a benign face,n:慈眉善目
+        ///a benignant look,n:慈眉善目
+        ///a bicycle lamp,n:车灯
+        ///a big amount,n:巨额
+        ///a big dis [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string en_zh {
+            get {
+                return ResourceManager.GetString("en_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon NotifyIcon {
             get {
                 object obj = ResourceManager.GetObject("NotifyIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 阿,&quot;v:pander,be bent|n:big mound|a:graceful|i:ah&quot;
+        ///阿爸,n:Dad
+        ///阿比西尼亚,n:Abyssinia|a:Abyssinian
+        ///阿的平,&quot;n:atebrin,atabrine&quot;
+        ///阿弟,n:younger brother
+        ///阿斗,&quot;n:fool,a weak-minded person,weak-minded person&quot;
+        ///阿尔巴尼亚,n:Albania|a:Albanian
+        ///阿尔卑斯,n:Alps
+        ///阿尔及尔,&quot;n:Algiers,Algia&quot;
+        ///阿尔及利亚,n:Algeria
+        ///阿尔萨斯,n:Alsace
+        ///阿飞,&quot;n:hoodlum,Teddy boy,young rowdy,hooligan&quot;
+        ///阿富汗,n:Afghanistan
+        ///阿哥,n:elder brother
+        ///阿根廷,a:Argentine|n:Argentina
+        ///阿訇,&quot;n:imam,Moslem mullah,ahung&quot;
+        ///阿姐,n:elder sister
+        ///阿克拉,n:Accra
+        ///阿拉伯,&quot;n:Arab,Arabian,Arabic&quot;
+        ///阿拉伯人,&quot;n:Arab, [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string zh_en {
+            get {
+                return ResourceManager.GetString("zh_en", resourceCulture);
             }
         }
     }
