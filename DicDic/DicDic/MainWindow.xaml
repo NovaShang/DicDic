@@ -6,10 +6,8 @@
         ResizeMode="NoResize"
         Topmost="True"
         ShowInTaskbar="False"
-        Deactivated="Window_Deactivated"
         ShowActivated="True"
-         Activated="Window_Activated"
-        Height="100"
+        Height="50"
         Width="400">
     <Border VerticalAlignment="Stretch"  
             Background="#FF1F1F1F" 

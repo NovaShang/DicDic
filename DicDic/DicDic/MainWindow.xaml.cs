@@ -24,16 +24,32 @@ namespace DicDic
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public MainWindow()
+        {
+            InitializeComponent();
+            Activated += (s, e) => KeyWordTextBox.Focus();
+            Deactivated += (s, e) => { Hide(); KeyWord = ""; };
+            DataContext = this;
+        }
+
         #region 用来注册和注销全局快捷键
 
+        /// <summary>
+        /// Win32API 用来注册一个全局快捷键
+        /// </summary>
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(
             IntPtr hWnd, int id, int fsModifiers, F.Keys vk);
 
+        /// <summary>
+        /// Win32API 用来注销一个全局快捷键
+        /// </summary>
         [DllImport("user32.dll")]
-        public static extern bool UnregisterHotKey(
-            IntPtr hWnd, int id);
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
+        /// <summary>
+        /// 当窗口的Source初始化完成时注册快捷键
+        /// </summary>
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -45,6 +61,9 @@ namespace DicDic
                 Debug.WriteLine("注册按键失败");
         }
 
+        /// <summary>
+        /// 用来响应快捷键按下事件的方法
+        /// </summary>
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wideParam, IntPtr longParam, ref bool handled)
         {
             if (msg == 0x312 && wideParam.ToInt32() == 0)
@@ -57,27 +76,28 @@ namespace DicDic
         }
         #endregion
 
-        private bool _showResult = false;
-        private string _keyWord = "";
+        private bool _showResult = true;
+        private string _keyWord ="";
+        public event PropertyChangedEventHandler PropertyChanged;
 
-
-        public MainWindow()
-        {
-            InitializeComponent();
-            ResetWindowBound();
-            DataContext = this;
-        }
-
+        /// <summary>
+        /// 是否时显示结果的状态，
+        /// </summary>
         public bool ShowResult
         {
             get => _showResult; set
             {
                 if (value == _showResult) return;
                 _showResult = value;
-                ResetWindowBound();
+                Height = ShowResult ? 500 : 50;
+                Left = SystemParameters.WorkArea.Right - Width;
+                Top = SystemParameters.WorkArea.Bottom - Height;
             }
         }
 
+        /// <summary>
+        /// 当前的搜索关键词
+        /// </summary>
         public string KeyWord
         {
             get => _keyWord; set
@@ -86,26 +106,6 @@ namespace DicDic
                 ShowResult = value != "";
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("KeyWord"));
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void ResetWindowBound()
-        {
-            Height = ShowResult ? 500 : 50;
-            Left = SystemParameters.WorkArea.Right - Width;
-            Top = SystemParameters.WorkArea.Bottom - Height;
-        }
-
-        private void Window_Deactivated(object sender, EventArgs e)
-        {
-            Hide();
-            KeyWord = "";
-        }
-
-        private void Window_Activated(object sender, EventArgs e)
-        {
-            KeyWordTextBox.Focus();
         }
     }
 }
