@@ -9,18 +9,41 @@
         ShowActivated="True"
         Height="50"
         Width="400">
+    
+    <Window.Resources>
+        <RoutedCommand x:Key="CmdSearchWeb"/>
+        <RoutedCommand x:Key="CmdClose"/>
+        <RoutedCommand x:Key="CmdOpenDetail"/>
+    </Window.Resources>
+    
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource CmdClose}" 
+                        Executed="HideWindow"/>
+        <CommandBinding Command="{StaticResource CmdSearchWeb}" 
+                        Executed="SearchWeb"/>
+        <CommandBinding Command="{StaticResource CmdOpenDetail}" 
+                        Executed="OpenDetail"/>
+    </Window.CommandBindings>
+    
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" 
+            Modifiers="" 
+            Command="{StaticResource CmdClose}"/>
+        <KeyBinding Key="Return" 
+            Modifiers="Ctrl" 
+            Command="{StaticResource  CmdSearchWeb}"/>
+        <KeyBinding Key="Return" 
+            Modifiers="" 
+            Command="{StaticResource  CmdOpenDetail}"/>
+    </Window.InputBindings>
+    
     <Border VerticalAlignment="Stretch"  
             Background="#FF1F1F1F" 
             BorderThickness="1" 
             BorderBrush="#FF444444">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="48"/>
-            </Grid.RowDefinitions>
-            
             <!--输入界面-->
-            <DockPanel Grid.Row="1">
+            <DockPanel>
                 <TextBlock DockPanel.Dock="Left"
                            ToolTip="DicDic by Nova"
                            Text="&#xE82D;" 
@@ -30,6 +53,7 @@
                             Orientation="Horizontal">
                     <Button Style="{DynamicResource FlatButtonStyle}"
                             ToolTip="查词 (Enter)"
+                            Command="{StaticResource CmdOpenDetail}"
                             Padding="10">
                         <TextBlock Text="&#xE164;"
                                    Tag="DicDic by Nova"
@@ -37,22 +61,17 @@
                     </Button>
                     <Button Style="{DynamicResource FlatButtonStyle}"
                             ToolTip="在线搜索 (Ctrl + Enter)"
+                            Command="{StaticResource CmdSearchWeb}"
                             Padding="10">
                         <TextBlock Text="&#xE774;" 
                                    Style="{DynamicResource FontIconSmall}" />
                     </Button>
                 </StackPanel>
-                <TextBox x:Name="KeyWordTextBox" Style="{DynamicResource TextBoxStyle}" 
-                         Text="{Binding KeyWord,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox x:Name="KeyWordTextBox" 
+                         Style="{DynamicResource TextBoxStyle}" 
+                         Text="{Binding KeyWord,UpdateSourceTrigger=PropertyChanged}">
+                </TextBox>
             </DockPanel>
-            
-            <!--结果显示-->
-            <ListView Grid.Row="0" Background="#FF333333" BorderThickness="0" Foreground="White">
-                <ListViewItem>
-                    <TextBlock Text="Bursted"/>
-                </ListViewItem>
-                
-            </ListView>
         </Grid>
     </Border>
 </Window>

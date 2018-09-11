@@ -27,8 +27,10 @@ namespace DicDic
         public MainWindow()
         {
             InitializeComponent();
+            Left = SystemParameters.WorkArea.Right - Width;
+            Top = SystemParameters.WorkArea.Bottom - Height;
             Activated += (s, e) => KeyWordTextBox.Focus();
-            Deactivated += (s, e) => { Hide(); KeyWord = ""; };
+            Deactivated += (s, e) => HideWindow(null, null);
             DataContext = this;
         }
 
@@ -55,7 +57,7 @@ namespace DicDic
             base.OnSourceInitialized(e);
             var hWnd = new WindowInteropHelper(this).Handle;
             HwndSource.FromHwnd(hWnd).AddHook(WndProc);
-            if (RegisterHotKey(hWnd, 0, 3, F.Keys.D))
+            if (RegisterHotKey(hWnd, 0, 5, F.Keys.D))
                 Application.Current.Exit += (s, args) => UnregisterHotKey(hWnd, 0);
             else
                 Debug.WriteLine("注册按键失败");
@@ -76,24 +78,8 @@ namespace DicDic
         }
         #endregion
 
-        private bool _showResult = true;
-        private string _keyWord ="";
+        private string _keyWord = "";
         public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// 是否时显示结果的状态，
-        /// </summary>
-        public bool ShowResult
-        {
-            get => _showResult; set
-            {
-                if (value == _showResult) return;
-                _showResult = value;
-                Height = ShowResult ? 500 : 50;
-                Left = SystemParameters.WorkArea.Right - Width;
-                Top = SystemParameters.WorkArea.Bottom - Height;
-            }
-        }
 
         /// <summary>
         /// 当前的搜索关键词
@@ -103,9 +89,33 @@ namespace DicDic
             get => _keyWord; set
             {
                 _keyWord = value;
-                ShowResult = value != "";
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("KeyWord"));
             }
+        }
+
+        /// <summary>
+        /// 在线搜索
+        /// </summary>
+        public void SearchWeb(object sender, EventArgs e)
+        {
+            Process.Start(Properties.Settings.Default.SearchUrl.Replace("{KEYWORD}", KeyWord));
+        }
+
+        /// <summary>
+        /// 隐藏界面
+        /// </summary>
+        public void HideWindow(object sender, EventArgs e)
+        {
+            Hide();
+            KeyWord = "";
+        }
+
+        /// <summary>
+        /// 在线查词
+        /// </summary>
+        private void OpenDetail(object sender, EventArgs e)
+        {
+            Process.Start(Properties.Settings.Default.DictUrl.Replace("{KEYWORD}", KeyWord));
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -15,7 +16,9 @@ namespace DicDic
     /// </summary>
     public partial class App : Application
     {
-
+        /// <summary>
+        /// 程序启动
+        /// </summary>
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -26,8 +29,9 @@ namespace DicDic
             CreateNotifyIcon();
         }
 
-        private F.MenuItem _miHotkey;
-
+        /// <summary>
+        /// 创建系统托盘图标和相关的菜单
+        /// </summary>
         private void CreateNotifyIcon()
         {
             var ni = new F.NotifyIcon()
@@ -36,18 +40,11 @@ namespace DicDic
                 Visible = true,
                 Icon = DicDic.Properties.Resources.NotifyIcon,
                 ContextMenu = new F.ContextMenu(new[] {
-                    _miHotkey=new F.MenuItem("启用全局快捷键"),
-                    new F.MenuItem("搜索引擎",new []{
-                        new F.MenuItem("谷歌"){ RadioCheck=true,Checked=true},
-                        new F.MenuItem("百度"){ RadioCheck=true},
-                        new F.MenuItem("必应"){ RadioCheck=true},
-                    }),
-                    new F.MenuItem("-"),
                     new F.MenuItem("帮助",(s,args)=>{
-                        Shutdown();
+                        Process.Start("https://github.com/NovaShang/DicDic");
                     }),
                     new F.MenuItem("关于",(s,args)=>{
-                        Shutdown();
+                        Process.Start("http://novashang.com");
                     }),
                     new F.MenuItem("-"),
                     new F.MenuItem("退出",(s,args)=>{

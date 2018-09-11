@@ -1,7 +1,12 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DicDic.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SearchUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://www.baidu.com/s?wd={KEYWORD}</Value>
+    </Setting>
+    <Setting Name="DictUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://cn.bing.com/dict/search?q={KEYWORD}</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
