@@ -32,6 +32,7 @@ namespace DicDic
             Top = SystemParameters.WorkArea.Bottom - Height;
             Activated += (s, e) => KeyWordTextBox.Focus();
             Deactivated += (s, e) => HideWindow(null, null);
+            Closing += (s, e) => e.Cancel = true;
             DataContext = this;
         }
 
@@ -82,7 +83,6 @@ namespace DicDic
         private string _keyWord = "";
         private bool _showResult = true;
         private Dictionary<string, int> _dicIndex=new Dictionary<string, int>();
-        private List<Result> _dicContent=new List<Result>();
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -115,6 +115,11 @@ namespace DicDic
         }
 
         /// <summary>
+        /// 词典的内容
+        /// </summary>
+        public List<Result> DicContent { get;} = new List<Result>();
+
+        /// <summary>
         /// 根据资源中的数据构建内存中的字典
         /// </summary>
         /// <returns></returns>
@@ -126,11 +131,11 @@ namespace DicDic
                 var pos = item.IndexOf(',');
                 if (pos < 0) continue;
                 var key = item.Substring(0, pos);
-                var value = item.Substring(pos + 1, item.Length - pos - 1);
-                if (_dicIndex.ContainsKey(key)) _dicContent[_dicIndex[key]].Content += "|" + value;
+                var value = item.Substring(pos + 1, item.Length - pos - 1).Replace("\r","");
+                if (_dicIndex.ContainsKey(key)) DicContent[_dicIndex[key]].Content += "|" + value;
                 else {
-                    _dicIndex.Add(key, _dicContent.Count);
-                    _dicContent.Add(new Result() {  Content= value,Title= key});
+                    _dicIndex.Add(key, DicContent.Count);
+                    DicContent.Add(new Result() {  Content= value,Title= key});
                 }
             }
         }

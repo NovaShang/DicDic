@@ -79,11 +79,21 @@
             </DockPanel>
 
             <!--结果显示-->
-            <ListView Grid.Row="0" Background="#FF333333" BorderThickness="0" Foreground="White">
-                <ListViewItem>
-                    <TextBlock Text="Bursted"/>
-                </ListViewItem>
-
+            <ListView Background="#FF333333" 
+                      BorderThickness="0" 
+                      Foreground="White" 
+                      ItemsSource="{Binding DicContent}"
+                      HorizontalContentAlignment="Stretch"
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemContainerStyle="{DynamicResource ListViewItemStyle}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="10,5">
+                            <TextBlock Text="{Binding Title}"/>
+                            <TextBlock Text="{Binding Content}" Opacity="0.7"/>
+                            <Rectangle Height="1" Fill="White" Opacity="0.5" Margin="-10,5,-10,-5"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </Grid>
     </Border>
