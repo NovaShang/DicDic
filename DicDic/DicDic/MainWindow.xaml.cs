@@ -35,7 +35,7 @@ namespace DicDic
         /// </summary>
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(
-            IntPtr hWnd, int id, int fsModifiers, Key vk);
+            IntPtr hWnd, int id, int fsModifiers, int vk);
 
         /// <summary>
         /// Win32API 用来注销一个全局快捷键
@@ -45,13 +45,14 @@ namespace DicDic
 
         /// <summary>
         /// 当窗口的Source初始化完成时注册快捷键
+        /// 快捷键是Shift+Alt+D
         /// </summary>
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
             var hWnd = new WindowInteropHelper(this).Handle;
             HwndSource.FromHwnd(hWnd).AddHook(WndProc);
-            if (RegisterHotKey(hWnd, 0, 5, Key.D))
+            if (RegisterHotKey(hWnd, 0, 5, 68))
                 Application.Current.Exit += (s, args) => UnregisterHotKey(hWnd, 0);
             else
                 Debug.WriteLine("注册按键失败");

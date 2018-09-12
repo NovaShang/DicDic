@@ -82,7 +82,7 @@
                             <Trigger Property="IsKeyboardFocused" Value="True">
                                 <Setter Property="Background"
                                         TargetName="border"
-                                        Value="#248"/>
+                                        Value="#33FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

@@ -112,8 +112,12 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="10,5">
-                            <TextBlock Text="{Binding Title}"/>
+                            <TextBlock Text="{Binding Title}"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="5"/>
                             <TextBlock Text="{Binding Content}"
+                                       Margin="5,0"
                                        Opacity="0.7"/>
                             <Rectangle Height="1" 
                                        Fill="White" 
