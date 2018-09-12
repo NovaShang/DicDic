@@ -41,7 +41,7 @@ namespace DicDic
                 Icon = DicDic.Properties.Resources.NotifyIcon,
                 ContextMenu = new F.ContextMenu(new[] {
                     new F.MenuItem("帮助",(s,args)=>{
-                        Process.Start("https://github.com/NovaShang/DicDic");
+                        Process.Start("https://novashang.github.io/DicDic/");
                     }),
                     new F.MenuItem("关于",(s,args)=>{
                         Process.Start("http://novashang.com");
