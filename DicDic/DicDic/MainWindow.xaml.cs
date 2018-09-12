@@ -4,19 +4,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using F = System.Windows.Forms;
+
 namespace DicDic
 {
     /// <summary>
@@ -43,7 +35,7 @@ namespace DicDic
         /// </summary>
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(
-            IntPtr hWnd, int id, int fsModifiers, F.Keys vk);
+            IntPtr hWnd, int id, int fsModifiers, Key vk);
 
         /// <summary>
         /// Win32API 用来注销一个全局快捷键
@@ -59,7 +51,7 @@ namespace DicDic
             base.OnSourceInitialized(e);
             var hWnd = new WindowInteropHelper(this).Handle;
             HwndSource.FromHwnd(hWnd).AddHook(WndProc);
-            if (RegisterHotKey(hWnd, 0, 5, F.Keys.D))
+            if (RegisterHotKey(hWnd, 0, 5, Key.D))
                 Application.Current.Exit += (s, args) => UnregisterHotKey(hWnd, 0);
             else
                 Debug.WriteLine("注册按键失败");
@@ -78,13 +70,14 @@ namespace DicDic
             }
             return IntPtr.Zero;
         }
-        #endregion
+
+        #endregion 用来注册和注销全局快捷键
 
         private string _keyWord = "";
         private bool _showResult = true;
-        private Dictionary<string, int> _dicIndex=new Dictionary<string, int>();
-        public event PropertyChangedEventHandler PropertyChanged;
+        private Dictionary<string, int> _dicIndex = new Dictionary<string, int>();
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// 是否时显示结果的状态，
@@ -110,6 +103,13 @@ namespace DicDic
             {
                 _keyWord = value;
                 ShowResult = value != "";
+                if (_dicIndex.TryGetValue(KeyWord, out var index))
+                    ResultList.SelectedItem = DicContent[index];
+                else
+                {
+                    var key = _dicIndex.Keys.FirstOrDefault(x => x.StartsWith(KeyWord));
+                    if (key != null) ResultList.SelectedItem = DicContent[_dicIndex[key]];
+                }
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("KeyWord"));
             }
         }
@@ -117,7 +117,7 @@ namespace DicDic
         /// <summary>
         /// 词典的内容
         /// </summary>
-        public List<Result> DicContent { get;} = new List<Result>();
+        public List<Result> DicContent { get; } = new List<Result>();
 
         /// <summary>
         /// 根据资源中的数据构建内存中的字典
@@ -131,15 +131,15 @@ namespace DicDic
                 var pos = item.IndexOf(',');
                 if (pos < 0) continue;
                 var key = item.Substring(0, pos);
-                var value = item.Substring(pos + 1, item.Length - pos - 1).Replace("\r","");
+                var value = item.Substring(pos + 1, item.Length - pos - 1).Replace("\r", "");
                 if (_dicIndex.ContainsKey(key)) DicContent[_dicIndex[key]].Content += "|" + value;
-                else {
+                else
+                {
                     _dicIndex.Add(key, DicContent.Count);
-                    DicContent.Add(new Result() {  Content= value,Title= key});
+                    DicContent.Add(new Result() { Content = value, Title = key });
                 }
             }
         }
-
 
         /// <summary>
         /// 在线搜索
@@ -166,10 +166,57 @@ namespace DicDic
             Process.Start(Properties.Settings.Default.DictUrl.Replace("{KEYWORD}", KeyWord));
         }
 
+        /// <summary>
+        /// 上一个词
+        /// </summary>
+        private void PrevItem(object sender, EventArgs e)
+        {
+            if (ResultList.SelectedIndex > 0 && ResultList.SelectedIndex < DicContent.Count)
+                ResultList.SelectedIndex--;
+            AutoFill(null, null);
+        }
+
+        /// <summary>
+        /// 下一个词
+        /// </summary>
+        private void NextItem(object sender, EventArgs e)
+        {
+            if (ResultList.SelectedIndex >= 0 && ResultList.SelectedIndex < DicContent.Count - 1)
+                ResultList.SelectedIndex++;
+            AutoFill(null, null);
+        }
+
+        /// <summary>
+        /// 自动补全
+        /// </summary>
+        private void AutoFill(object sender, EventArgs e)
+        {
+            if (ResultList.SelectedItem is Result r)
+                KeyWord = r.Title;
+        }
+
+        /// <summary>
+        /// 结果列表选择变化
+        /// </summary>
+        private void ResultList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ResultList.SelectedItem is Result r)
+                ResultList.ScrollIntoView(r);
+        }
+
+        /// <summary>
+        /// 用来显示结果的VM
+        /// </summary>
         public class Result
         {
+            /// <summary>
+            /// 标题
+            /// </summary>
             public string Title { get; set; }
 
+            /// <summary>
+            /// 正文
+            /// </summary>
             public string Content { get; set; }
         }
     }

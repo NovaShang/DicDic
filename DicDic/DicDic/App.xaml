@@ -23,11 +23,12 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid Background="{TemplateBinding Background}"
                               SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" 
-                                              Focusable="False" 
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                              Margin="{TemplateBinding Padding}" 
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <ContentPresenter 
+                                x:Name="contentPresenter" 
+                                Focusable="False" 
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                Margin="{TemplateBinding Padding}" 
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <Border x:Name="border"
                                     Background="{TemplateBinding BorderBrush}"
                                     Opacity="0"/>
@@ -99,6 +100,11 @@
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="#33FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Background"
                                         TargetName="border"
                                         Value="#248"/>

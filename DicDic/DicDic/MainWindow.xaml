@@ -9,13 +9,16 @@
         ShowActivated="True"
         Height="50"
         Width="400">
-    
+
     <Window.Resources>
         <RoutedCommand x:Key="CmdSearchWeb"/>
         <RoutedCommand x:Key="CmdClose"/>
         <RoutedCommand x:Key="CmdOpenDetail"/>
+        <RoutedCommand x:Key="CmdNext"/>
+        <RoutedCommand x:Key="CmdPrev"/>
+        <RoutedCommand x:Key="CmdAutoFill"/>
     </Window.Resources>
-    
+
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource CmdClose}" 
                         Executed="HideWindow"/>
@@ -23,20 +26,14 @@
                         Executed="SearchWeb"/>
         <CommandBinding Command="{StaticResource CmdOpenDetail}" 
                         Executed="OpenDetail"/>
+        <CommandBinding Command="{StaticResource CmdNext}" 
+                        Executed="NextItem"/>
+        <CommandBinding Command="{StaticResource CmdPrev}" 
+                        Executed="PrevItem"/>
+        <CommandBinding Command="{StaticResource CmdAutoFill}" 
+                        Executed="AutoFill"/>
     </Window.CommandBindings>
-    
-    <Window.InputBindings>
-        <KeyBinding Key="Esc" 
-            Modifiers="" 
-            Command="{StaticResource CmdClose}"/>
-        <KeyBinding Key="Return" 
-            Modifiers="Ctrl" 
-            Command="{StaticResource  CmdSearchWeb}"/>
-        <KeyBinding Key="Return" 
-            Modifiers="" 
-            Command="{StaticResource  CmdOpenDetail}"/>
-    </Window.InputBindings>
-    
+
     <Border VerticalAlignment="Stretch"  
             Background="#FF1F1F1F" 
             BorderThickness="1" 
@@ -72,25 +69,56 @@
                                    Style="{DynamicResource FontIconSmall}" />
                     </Button>
                 </StackPanel>
+                
+                <!--输入文本框-->
                 <TextBox x:Name="KeyWordTextBox" 
                          Style="{DynamicResource TextBoxStyle}" 
                          Text="{Binding KeyWord,UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Esc" 
+                                    Modifiers="" 
+                                    Command="{StaticResource CmdClose}"/>
+                        <KeyBinding Key="Return" 
+                                    Modifiers="Ctrl" 
+                                    Command="{StaticResource  CmdSearchWeb}"/>
+                        <KeyBinding Key="Return" 
+                                    Modifiers="" 
+                                    Command="{StaticResource  CmdOpenDetail}"/>
+                        <KeyBinding Key="Up" 
+                                    Modifiers="" 
+                                    Command="{StaticResource CmdPrev}"/>
+                        <KeyBinding Key="Down" 
+                                    Modifiers="" 
+                                    Command="{StaticResource  CmdNext}"/>
+                        <KeyBinding Key="Tab" 
+                                    Modifiers="" 
+                                    Command="{StaticResource  CmdAutoFill}"/>
+                    </TextBox.InputBindings>
+
                 </TextBox>
             </DockPanel>
 
             <!--结果显示-->
             <ListView Background="#FF333333" 
-                      BorderThickness="0" 
+                      BorderThickness="0"
                       Foreground="White" 
+                      x:Name="ResultList"
                       ItemsSource="{Binding DicContent}"
-                      HorizontalContentAlignment="Stretch"
-                      ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemContainerStyle="{DynamicResource ListViewItemStyle}">
+                      HorizontalContentAlignment="Stretch"                   
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      SelectionChanged="ResultList_SelectionChanged"
+                      ItemContainerStyle="{DynamicResource ListViewItemStyle}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="10,5">
                             <TextBlock Text="{Binding Title}"/>
-                            <TextBlock Text="{Binding Content}" Opacity="0.7"/>
-                            <Rectangle Height="1" Fill="White" Opacity="0.5" Margin="-10,5,-10,-5"/>
+                            <TextBlock Text="{Binding Content}"
+                                       Opacity="0.7"/>
+                            <Rectangle Height="1" 
+                                       Fill="White" 
+                                       Opacity="0.2" 
+                                       Margin="-10,5,-10,-5"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
