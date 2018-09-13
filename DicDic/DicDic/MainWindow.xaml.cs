@@ -49,10 +49,11 @@ namespace DicDic
         /// </summary>
         protected override void OnSourceInitialized(EventArgs e)
         {
+            var setting = Properties.Settings.Default;
             base.OnSourceInitialized(e);
             var hWnd = new WindowInteropHelper(this).Handle;
             HwndSource.FromHwnd(hWnd).AddHook(WndProc);
-            if (RegisterHotKey(hWnd, 0, 5, 68))
+            if (RegisterHotKey(hWnd, 0,setting.KeyModifier , setting.KeyCode))
                 Application.Current.Exit += (s, args) => UnregisterHotKey(hWnd, 0);
             else
                 Debug.WriteLine("注册按键失败");
