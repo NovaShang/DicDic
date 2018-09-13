@@ -1,4 +1,5 @@
-![DicDic](https://novashang.github.io/DicDic/img/logo-dark.svg =250x250)
+<img src="https://novashang.github.io/DicDic/img/logo-dark.svg" width="128">
+
 
 # DicDic
 
