@@ -1,0 +1,24 @@
+<h1 id="dicdic">DicDic</h1>
+<p>A simple desktop dictionary that easy to access.</p>
+<h1 id="安装与运行说明">安装与运行说明</h1>
+<ol style="list-style-type: decimal">
+<li>使用上方的下载按钮下载最新版本或在<a href="https://github.com/NovaShang/DicDic/releases">这里</a>查看所有的发布版本。</li>
+<li>运行下载的 <code>DicDic.exe</code>。</li>
+</ol>
+<p>如需开机自启动，将该程序或该程序的快捷方式放入 <code>C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp</code> 位置即可。</p>
+<h1 id="使用说明">使用说明</h1>
+<ol style="list-style-type: decimal">
+<li>点击系统托盘中的DicDic图标，或按下快捷键 <code>shift + Alt + D</code> 打开输入框。</li>
+<li>输入要查询的单词或搜索的关键字。</li>
+<li>按 <code>Tab</code> 键自动补全单词，按 <code>↑</code> 建或 <code>↓</code> 键在本地词库列表中滚动。</li>
+<li>按 <code>Enter</code> 键或点击查词按钮在线查词，按 <code>Ctrl + Enter</code> 键或点击搜索按钮在线搜索当前输入的关键词。</li>
+<li>右键点击系统托盘图标，在菜单中可以退出本程序。</li>
+</ol>
+<h1 id="配置说明">配置说明</h1>
+<ul>
+<li>在系统目录 <code>C:\Users\[你的用户名]\AppData\Local\Nova\DicDic_[一些随机字符]\[版本号]</code> 目录下可以找到 <code>user.config</code> 文件，使用文本编辑器修改该文件即可变更程序的设置。</li>
+<li><code>searchUrl</code> 字段为程序使用的搜索引擎的地址，<code>&quot;{KeyWord}&quot;</code> 将被替换为输入的关键词。默认为Baidu,如需更换成Google，则将该字段改为 <code>https://www.google.co.jp/search?q={KeyWord}</code> 。</li>
+<li><code>dicUrl</code> 字段为程序使用的在线词典的地址，<code>&quot;{KeyWord}&quot;</code> 将被替换为输入的关键词。</li>
+<li><code>keyCode</code> 和 <code>keyModifier</code> 字段用来设置全局唤出快捷键，具体的值参见<a href="https://msdn.microsoft.com/zh-cn/library/system.windows.forms.keys(v=vs.110).aspx">该文档</a>。</li>
+<li>如需恢复默认设置，删除该文件即可。</li>
+</ul>
